@@ -2,7 +2,7 @@ import mongoose,{Schema} from 'mongoose'
 import bcrypt from 'bcrypt'
 
 const adminSchema = new Schema({
-    name: {
+    userName: {
         type: String,
         required: [true, "please add name"],
         trim: true,
@@ -20,7 +20,7 @@ const adminSchema = new Schema({
       },
       jobType: {
         type: String,
-        default:"Admin"
+        default:"admin"
       },
       aadhaarNo:{
         type: String,

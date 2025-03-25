@@ -1,7 +1,7 @@
 import mongoose,{Schema} from 'mongoose'
 
 const userSchema = new Schema({
-    name: {
+    userName: {
         type: String,
         required: [true, "please add name"],
         trim: true,
@@ -9,11 +9,11 @@ const userSchema = new Schema({
       phoneNumber: {
         type: String,
         required: [true, "please add phone number"],
-        unique: true,
+        // unique: true, just for development purpose
       },
       jobType: {
         type: String,
-        enum: ["Inventory", "Die Casting", "Shot Blasting", "Flatling","Admin"],
+        enum: ["Inventory", "Die Casting", "Shot Blasting", "Flatling","admin"],
         required: true,
       },
       aadhaarNo:{

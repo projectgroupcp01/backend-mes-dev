@@ -2,7 +2,7 @@ import mongoose,{Schema} from 'mongoose'
 import bcrypt from 'bcrypt'
 
 const userSchema = new Schema({
-    name: {
+    userName: {
         type: String,
         required: [true, "please add name"],
         trim: true,

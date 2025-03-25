@@ -8,12 +8,12 @@ import mongoose from "mongoose";
 
 const registerUser = asyncHandler( async (req, res) => {
     
-    const {name,phoneNumber,jobType, password,aadhaarNo } = req.body
+    const {userName,phoneNumber,jobType, password,aadhaarNo } = req.body
     console.log("phoneNo : ", phoneNumber);
 
     //checking if any field is empty
     if (
-        [name,phoneNumber,jobType, password,aadhaarNo].some((field) => { return field?.trim() === ""})
+        [userName,phoneNumber,jobType, password,aadhaarNo].some((field) => { return field?.trim() === ""})
     ) {
         throw new ApiError(400, "All fields are required")
     }
@@ -29,7 +29,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }   
 
     const user = await User.create({
-        name,
+        userName,
         phoneNumber,
         jobType,
         password,
@@ -54,37 +54,52 @@ const registerUser = asyncHandler( async (req, res) => {
 
 
 // /user/delete/:id
-const deleteUser = asyncHandler( async (req,res)=>{
-    const userId = req.params.id
-    const {name,phoneNumber,jobType,aadhaarNo} = await User.findById(userId)
-    // if (!userToDelete) {
-    //     throw new ApiError(404,"User doesnot exist")
-    // }
+const deleteUser = asyncHandler(async (req, res) => {
+    const userId = req.params.id;
 
-    // user to add in previous user
-    const userToAdd = await Puser.create({
-        name,
+    const user = await User.find({_id:userId})
+    console.log(userId)
+    // Find user by ID
+    const userToDelete = await User.findById(userId);
+    console.log(userToDelete)
+    if (!userToDelete) {
+        throw new ApiError(404, "User does not exist");
+    }
+
+    const { userName, phoneNumber, jobType, aadhaarNo } = userToDelete;
+    console.log(userToDelete.userName)
+     // user to add in previous user
+     const userToAdd = await Puser.create({
+        userName,
         phoneNumber,
         jobType,
         aadhaarNo
     })
 
-    // To check if user is created
-    const createdUser = await Puser.findOne({phoneNumber})
+    // Check if user already exists in Puser
+    const existingUser = await Puser.findOne({ phoneNumber });
+    if (!existingUser) {
+        await Puser.create({ name, phoneNumber, jobType, aadhaarNo });
+    }
+
+    // Verify user was added to Puser
+    const createdUser = await Puser.findOne({ phoneNumber });
     if (!createdUser) {
-        throw new ApiError(500, "Something went wrong while adding user to previous user model")
+        throw new ApiError(500, "Something went wrong while adding user to previous user model");
     }
 
-    //To delete the user from User model
-    const {acknowledged} = await User.deleteOne({phoneNumber})
-    if (!acknowledged) {
-        throw new ApiError(500, "Something went wrong while deleting user")
+    // Delete user from User model
+    const { acknowledged, deletedCount } = await User.deleteOne({ _id: userId });
+    if (!acknowledged || deletedCount === 0) {
+        throw new ApiError(500, "Something went wrong while deleting user");
     }
 
-    return res.status(201).json(
+    return res.status(200).json(
         new ApiResponse(200, createdUser, "User Deleted Successfully")
-    )
-})
+    );
+});
+
+
 
 export {
     registerUser,
