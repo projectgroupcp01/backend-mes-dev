@@ -11,12 +11,16 @@ app.use(cookieParser())
 
 //import routes
 import userRouter from './routes/user.routes.js'
+import adminRouter from './routes/admin.routes.js'
 import materialRecievedRouter from './routes/materialRecieved.routes.js'
 import materialIssuedRouter from './routes/materialIssued.routes.js'
 import inventoryRouter from './routes/Inventory.routes.js'
 
 //routes declaration : USER
 app.use("/user",userRouter)
+
+//routes declaration : Admin
+app.use("/admin",adminRouter)
 
 //routes : Material recieved
 app.use("/material-recieved",materialRecievedRouter)

@@ -52,6 +52,7 @@ const registerUser = asyncHandler( async (req, res) => {
 } )
 
 
+
 // /user/delete/:id
 const deleteUser = asyncHandler( async (req,res)=>{
     const userId = req.params.id

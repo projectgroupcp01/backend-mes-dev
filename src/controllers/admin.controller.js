@@ -11,15 +11,12 @@ const registerAdmin = asyncHandler( async (req, res) => {
     
     const {name,phoneNumber,jobType, password,aadhaarNo,isOwner } = req.body
     console.log("phoneNo : ", phoneNumber);
+    console.log(aadhaarNo)
 
     //checking if any field is empty
     if (
         [name,phoneNumber,jobType, password,aadhaarNo].some((field) => { return field?.trim() === ""})
     ) {
-        throw new ApiError(400, "All fields are required")
-    }
-
-    if (!isOwner) {
         throw new ApiError(400, "All fields are required")
     }
     //finding if userName or phoneNumber is already  in use
@@ -88,10 +85,52 @@ const deleteAdmin = asyncHandler( async (req,res)=>{
     )
 })
 
+const loginAdmin = asyncHandler(async (req, res) =>{
+  
+    const {phoneNumber, password} = req.body
+
+    if (!phoneNumber) {
+        throw new ApiError(400, "phone number is required")
+    }
+    
+    const user = await Admin.findOne({
+        phoneNumber
+    })
+
+    if (!user) {
+        throw new ApiError(404, "User does not exist")
+    }
+
+   const isPasswordValid = await user.isPasswordCorrect(password)
+
+   if (!isPasswordValid) {
+    throw new ApiError(401, "Invalid user credentials")
+    }
+
+//    const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+
+//     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+//     const options = {
+//         httpOnly: true,
+//         secure: true
+//     }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200, 
+            "User logged In Successfully"
+        )
+    )
+
+})
 
 
 
 export {
     registerAdmin,
+    loginAdmin,
     deleteAdmin
 }
