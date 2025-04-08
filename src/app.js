@@ -15,6 +15,7 @@ import adminRouter from './routes/admin.routes.js'
 import materialRecievedRouter from './routes/materialRecieved.routes.js'
 import materialIssuedRouter from './routes/materialIssued.routes.js'
 import inventoryRouter from './routes/Inventory.routes.js'
+import orderRouter from './routes/order.routes.js'
 
 //routes declaration : USER
 app.use("/user",userRouter)
@@ -31,5 +32,7 @@ app.use("/material-issued",materialIssuedRouter)
 //routes : Inventory
 app.use("/inventory",inventoryRouter)
 
+//routes : Order
+app.use("/order",orderRouter)
 
 export { app }

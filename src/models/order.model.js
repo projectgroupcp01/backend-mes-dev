@@ -34,6 +34,10 @@ const OrderSchema = new Schema({
   dateOfOrder: {
     type: Date,
     default: Date.now
+  },
+  isComplete:{
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 
