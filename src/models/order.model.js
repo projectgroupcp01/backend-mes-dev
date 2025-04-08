@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import Dyecasting from "./dyecasting.model"
 
 // Sample part number to part name mapping
 const partDetails = {
@@ -7,6 +8,14 @@ const partDetails = {
   "P003": "Part 3",
   "P004": "Part 4",
 };
+
+//object for part number : casting name
+const castingDetails = {
+  "P001": "casting 1",
+  "P002": "casting 2",
+  "P003": "casting 3",
+  "P004": "casting 4"
+}
 
 // Define allowed part numbers for dropdown
 const allowedPartNumbers = Object.keys(partDetails);
@@ -31,6 +40,10 @@ const OrderSchema = new Schema({
     type: Number,
     required: [true, 'Quantity is required']
   },
+  quantityProduced:{
+    type:Number,
+    default:0
+  },
   dateOfOrder: {
     type: Date,
     default: Date.now
@@ -41,13 +54,39 @@ const OrderSchema = new Schema({
   }
 }, { timestamps: true });
 
-// hook to auto-fill partName or throw error
-OrderSchema.pre('save', function (next) {
-  if (!partDetails[this.partNumber]) {
-    return next(new Error(`Part number "${this.partNumber}" is not recognized.`));
+// hook to auto-fill partName or throw error and also check if additional casting are already produced 
+
+OrderSchema.pre('save', async function (next) {
+  try {
+    // Validate and set partName
+    if (!partDetails[this.partNumber]) {
+      return next(new Error(`Part number "${this.partNumber}" is not recognized.`));
+    }
+    this.partName = partDetails[this.partNumber];
+
+    // Get the corresponding casting name
+    const castingName = castingDetails[this.partNumber];
+    if (!castingName) {
+      return next(new Error(`No casting name mapped for part number "${this.partNumber}".`));
+    }
+
+    // Fetch all dyecasting records with this casting name (additional castings)
+    const matchingCastings = await Dyecasting.find({ castingName });
+
+    // Sum quantityProduced from all matching dyecasting entries
+    const totalProduced = matchingCastings.reduce((acc, curr) => {
+      const qty = parseFloat(curr.quantityProduced); // Assuming it's stored as string
+      return acc + (isNaN(qty) ? 0 : qty);
+    }, 0);
+
+    // Set quantityProduced in Order
+    this.quantityProduced = totalProduced;
+
+    next();
+  } catch (error) {
+    next(error);
   }
-  this.partName = partDetails[this.partNumber];
-  next();
 });
+
 
 export const Order = mongoose.model('Order', OrderSchema);
