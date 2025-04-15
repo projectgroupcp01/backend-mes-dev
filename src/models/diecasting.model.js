@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 //schema
-const dyeCastingSchema = new mongoose.Schema(
+const dieCastingSchema = new mongoose.Schema(
     {
       castingName: {
         type: String,
@@ -56,4 +56,4 @@ const dyeCastingSchema = new mongoose.Schema(
     { timestamps: true }
   );
 
-export const Dyecasting = mongoose.model('Dyecasting',dyeCastingSchema)
+export const Diecasting = mongoose.model('Diecasting',dieCastingSchema)

@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import Dyecasting from "./dyecasting.model"
-
+import Dyecasting from "./diecasting.model.js"
+import castingDetails from '../constant.js'
+import partDetails from '../constant.js'
 
 // Define allowed part numbers for dropdown
 const allowedPartNumbers = Object.keys(partDetails);
