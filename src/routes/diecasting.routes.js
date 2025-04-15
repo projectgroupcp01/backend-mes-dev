@@ -3,7 +3,7 @@ import { getAllDiecastings, deleteDiecasting, updateDiecasting } from "../contro
 
 const router = express.Router();
 
-router.get("/all", getAllDiecastings);
+router.get("/get-all", getAllDiecastings);
 router.delete("/delete/:id", deleteDiecasting);
 router.put("/update/:id", updateDiecasting);
 

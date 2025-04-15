@@ -18,6 +18,22 @@ const getAllMaterialIssued =  asyncHandler ( async (req,res)=>{
     )
 })
 
+const deleteMaterialIssued = asyncHandler(async (req, res) => {
+    const materialId = req.params.id;
+
+    const deletedMaterial = await MaterialIssued.findByIdAndDelete(materialId);
+
+    if (!deletedMaterial) {
+        throw new ApiError(404, "MaterialIssued entry not found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, deletedMaterial, "MaterialIssued entry deleted successfully")
+    );
+});
+
+
 export {
-    getAllMaterialIssued
+    getAllMaterialIssued,
+    deleteMaterialIssued
 }

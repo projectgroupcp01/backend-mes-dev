@@ -1,9 +1,9 @@
-import { getAllMaterialIssued } from "../controllers/materialIssued.controller.js";
-import { getAllMaterialRecieved } from "../controllers/materialRecieved.controller.js";
+import { getAllMaterialIssued,deleteMaterialIssued } from "../controllers/materialIssued.controller.js";
 import {Router} from 'express'
 
 const router = Router()
 
-router.route('/get-all-issued-material').get(getAllMaterialIssued)
+router.route('/get-all').get(getAllMaterialIssued)
+router.route('/delete/:id').delete(deleteMaterialIssued)
 
 export default router
