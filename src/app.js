@@ -17,7 +17,7 @@ import materialRecievedRouter from './routes/materialRecieved.routes.js'
 import materialIssuedRouter from './routes/materialIssued.routes.js'
 import inventoryRouter from './routes/Inventory.routes.js'
 import orderRouter from './routes/order.routes.js'
-
+import reportRouter from './routes/report.routes.js'
 
 // Routes declaration : USER
 app.use("/api/user", userRouter);
@@ -36,6 +36,9 @@ app.use("/api/inventory", inventoryRouter);
 
 // Routes : Order
 app.use("/api/order", orderRouter);
+
+// Routes : report
+app.use("/api/reports", reportRouter);
 
 
 
