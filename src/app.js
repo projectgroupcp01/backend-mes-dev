@@ -18,6 +18,7 @@ import materialIssuedRouter from './routes/materialIssued.routes.js'
 import inventoryRouter from './routes/Inventory.routes.js'
 import orderRouter from './routes/order.routes.js'
 import reportRouter from './routes/report.routes.js'
+import diecastingRouter from './routes/diecasting.routes.js'
 
 // Routes declaration : USER
 app.use("/api/user", userRouter);
@@ -39,6 +40,10 @@ app.use("/api/order", orderRouter);
 
 // Routes : report
 app.use("/api/reports", reportRouter);
+
+// Routes : diecasting
+app.use("/api/diecasting", diecastingRouter);
+
 
 
 
