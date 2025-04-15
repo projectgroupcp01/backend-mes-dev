@@ -29,7 +29,7 @@ cron.schedule("0 */6 * * *", async () => {
         // Create new entry in CastingUtilized with used quantity
         await CastingUtilized.create({
           castingName: casting.castingName,
-          quantityProduced: qtyToUse,
+          quantityUsed: qtyToUse,
           quantityProducedKG: casting.quantityProducedKG,
           shiftOfProduction: casting.shiftOfProduction,
           machineNumber: casting.machineNumber,

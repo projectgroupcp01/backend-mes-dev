@@ -4,6 +4,6 @@ import {Router} from 'express'
 
 const router = Router()
 
-router.route('/get-all').get(getAllMaterialIssued)
+router.route('/get-all-issued-material').get(getAllMaterialIssued)
 
 export default router

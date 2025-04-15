@@ -6,7 +6,7 @@ const castingUtilizedSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add casting name"],
     },
-    quantityProduced: {
+    quantityUsed: {
       type: String,
       required: [true, "Please add quantity produced"],
     },
@@ -55,8 +55,9 @@ const castingUtilizedSchema = new mongoose.Schema(
       ref: "User",
     },
     poNumber: {
-      type: String,
-      required: [true, "Please add PO number"],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
+        required: [true, "Please provide the Order ID (poNumber)"],
     },
   },
   { timestamps: true }

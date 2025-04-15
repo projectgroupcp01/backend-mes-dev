@@ -44,4 +44,20 @@ const createOrder = asyncHandler(async (req, res) => {
   return res.status(201).json(new ApiResponse(201, order, "Order created successfully"));
 });
 
-export { createOrder };
+
+//  GET ALL ORDERS CONTROLLER
+const getAllOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find().sort({ createdAt: -1 });
+
+  if (!orders || orders.length === 0) {
+    return res.status(204).json(
+      new ApiResponse(204, {}, "No orders found")
+    );
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, orders, "All orders fetched successfully")
+  );
+});
+
+export { createOrder, getAllOrders };

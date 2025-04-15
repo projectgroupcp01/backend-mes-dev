@@ -19,14 +19,23 @@ import inventoryRouter from './routes/Inventory.routes.js'
 import orderRouter from './routes/order.routes.js'
 
 
-//routes declaration : Admin
-app.use("/admin",adminRouter)
+// Routes declaration : USER
+app.use("/api/user", userRouter);
 
-//routes : Material recieved
-app.use("/material-recieved",materialRecievedRouter)
+// Routes declaration : Admin
+app.use("/api/admin", adminRouter);
 
-//routes : Material Issued
-app.use("/material-issued",materialIssuedRouter)
+// Routes : Material received
+app.use("/api/material-recieved", materialRecievedRouter);
+
+// Routes : Material Issued
+app.use("/api/material-issued", materialIssuedRouter);
+
+// Routes : Inventory
+app.use("/api/inventory", inventoryRouter);
+
+// Routes : Order
+app.use("/api/order", orderRouter);
 
 
 
